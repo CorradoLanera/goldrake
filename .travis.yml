@@ -6,9 +6,10 @@ cache: packages
 latex: false
 fortran: false
 
-os:
-    - linux
-    - osx
+r_github_packages:
+    - ropensci/git2r
+    - r-lib/usethis
+    - r-lib/devtools
 
 r:
     - 3.1
@@ -17,6 +18,17 @@ r:
     - oldrel
     - release
     - devel
+
+matrix:
+  include:
+  - r: 3.2
+    os: osx
+  - r: 3.3
+    os: osx
+  - r: oldrel
+    os: osx
+  - r: release
+    os: osx
 
 
 after_success:
