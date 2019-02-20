@@ -7,12 +7,14 @@ latex: false
 fortran: false
 
 r:
+    - 3.4
     - oldrel
     - release
     - devel
 
 matrix:
   include:
+  - r: 3.4
     os: osx
   - r: oldrel
     os: osx
