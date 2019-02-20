@@ -1,5 +1,6 @@
 # goldrake 0.0.0.9000
 
+* Update Dependencies (R >= 3.4)
 * Added basic development support:
   - git + GitHub;
   - appVeyor + Travis + codecov;
