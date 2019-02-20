@@ -1,12 +1,25 @@
 Package: goldrake
-Title: What the Package Does (One Line, Title Case)
+Title: Gold-standard hero
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "Corrado",
-           family = "Lanera",
-           role = c("aut", "cre"),
-           email = "corrado.lanera@gmail.com")
-Description: What the package does (one paragraph).
+    c(
+        person(
+            given  = "Corrado",
+            family = "Lanera",
+            role   = c("aut", "cre"),
+            email  = "corrado.lanera@gmail.com"
+        ),
+        person(
+            given = "Daniele",
+            family = "Bottigliengo",
+            role = c("aut"),
+            email = "daniele.bottigliengo@libero.it"
+        )
+    )
+Description: The goal of goldrake is to provide an enviroment to create
+             gold-standard databases for a classification task.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+URL: https://github.com/CorradoLanera/goldrake
+BugReports: https://github.com/CorradoLanera/goldrake/issues
