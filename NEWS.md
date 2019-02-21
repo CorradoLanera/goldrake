@@ -1,9 +1,10 @@
+* Updated `README`;
 * Added `utils.R`, `directory.R`, and `ui.R` with some feature from 
   the package `usethis`.
 
 # goldrake 0.0.0.9000
 
-* Update Dependencies (R >= 3.4)
+* Update Dependencies (R >= 3.4);
 * Added basic development support:
   - git + GitHub;
   - appVeyor + Travis + codecov;
