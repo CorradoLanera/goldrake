@@ -45,6 +45,15 @@ ui_done <- function(x, .envir = parent.frame()) {
   cat_bullet(x, crayon::red(crayon::green(clisymbols::symbol$tick)))
 }
 
+
+#' @rdname ui
+ui_fail <- function(x, .envir = parent.frame()) {
+  x <- glue_collapse(x, "\n")
+  x <- glue(x, .envir = .envir)
+  cat_bullet(x, crayon::red(clisymbols::symbol$cross))
+}
+
+
 #' @param copy If `TRUE`, the session is interactive, and the clipr package
 #'   is installed, will copy the code block to the clipboard.
 #' @rdname ui
@@ -71,7 +80,7 @@ ui_stop <- function(x, .envir = parent.frame()) {
   x <- glue(x, .envir = .envir)
 
   cnd <- structure(
-    class = c("usethis_error", "error", "condition"),
+    class = c("goldrake_error", "error", "condition"),
     list(message = x)
   )
 

@@ -25,6 +25,10 @@ test_that("goldrake require the correct inputs", {
 })
 
 
+test_that("goldrake throw an error on wrong input", {
+    expect_error(goldrake(1), "numeric")
+})
+
 
 
 
@@ -72,7 +76,7 @@ test_that("empty goldrake has expected attributes", {
     expect_is(attr(empty_goldrake, "reviewer_names"), "character")
     expect_length(attr(empty_goldrake, "reviewer_names"), 0)
 
-    expect_is(attr(empty_goldrake, "gold_classes"), "factor")
+    expect_is(attr(empty_goldrake, "gold_classes"), "character")
     expect_length(attr(empty_goldrake, "gold_classes"), 0)
 
     expect_is(attr(empty_goldrake, "balanced_variables"), "character")

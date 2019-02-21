@@ -13,13 +13,28 @@
 #'
 #' @examples
 #' goldrake(mtcars)
+#' \dontrun{
+#'     # throw an error
+#'     goldrake(1)
+#' }
 goldrake <- function(original_data) {
+
+    if (!is.data.frame(original_data)) {
+        ui_stop(paste(
+            "The {ui_field('original_data')} input in",
+            "{ui_code('goldrake')} must be inherited from the",
+            "{ui_value('data.frame')} class.\n",
+            "It is of class {ui_value(class(original_data))}.\n",
+            "Please, provide an object of class",
+            "{ui_value('data.frame')}."
+        ))
+    }
 
     structure(
         .Data = goldrake_list(original_data),
 
         reviewer_names     = character(),
-        gold_classes       = factor(),
+        gold_classes       = character(),
         balanced_variables = character(),
         max_sampled        = c(
             overall  = integer(),
