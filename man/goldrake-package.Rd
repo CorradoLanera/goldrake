@@ -2,12 +2,10 @@
 % Please edit documentation in R/goldrake-package.R
 \docType{package}
 \name{goldrake-package}
-\alias{goldrake}
 \alias{goldrake-package}
+\alias{_PACKAGE}
+\alias{"goldrake-package"}
 \title{goldrake: Gold-standard hero}
-\value{
-a \link[tibble:tibble-package]{tibble}
-}
 \description{
 The goal of goldrake is to provide an environment
     to create gold-standard databases for a classification task.
