@@ -33,11 +33,13 @@ The intended is divided in multiple step.
 
 ### Setup
 
-    mtcars_gr <- goldrake(mtcars) %>% 
-       set_gold_class(c("good", "bad", "so and so")) %>% 
-       balance_groups_by(vs, am) %>% 
-       max_sample_each_group(5) %>% 
-       add_reviewer("Corrado", "Lanera")
+``` r
+mtcars_gr <- goldrake(mtcars) %>% 
+   set_gold_class(c("good", "bad", "so and so")) %>% 
+   balance_groups_by(vs, am) %>% 
+   max_sample_each_group(5) %>% 
+   add_reviewer("Corrado", "Lanera")
+```
 
 You can add reviewer in any moment (even if the previous ones have
 already started to classify objects).

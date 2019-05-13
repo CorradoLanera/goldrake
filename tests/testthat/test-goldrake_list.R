@@ -5,7 +5,7 @@ test_that("goldrake_list return the correct object", {
         goldrake_list(tibble()),
         list(
             used_data     = tibble(),
-            reviewers     = list(NULL),
+            reviewers     = list(),
             original_data = tibble()
         )
     )
@@ -14,7 +14,7 @@ test_that("goldrake_list return the correct object", {
     goldrake_list(mtcars),
     list(
         used_data     = tibble(),
-        reviewers     = list(NULL),
+        reviewers     = list(),
         original_data = mtcars
     )
   )
@@ -23,5 +23,5 @@ test_that("goldrake_list return the correct object", {
 
 
 test_that("goldrake_list return an error on wrong inputs", {
-    expect_error(goldrake_list(1), "numeric")
+    expect_condition(goldrake_list(1), "numeric", class = "simpleError")
 })

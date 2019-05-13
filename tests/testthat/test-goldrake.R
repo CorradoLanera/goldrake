@@ -26,7 +26,7 @@ test_that("goldrake require the correct inputs", {
 
 
 test_that("goldrake throw an error on wrong input", {
-    expect_error(goldrake(1), "numeric")
+    expect_condition(goldrake(1), "numeric", class = "goldrake_error")
 })
 
 
@@ -45,7 +45,7 @@ test_that("empty goldrake has the expected components", {
     expect_equal(names(empty_goldrake), component_names)
 
     expect_is(empty_goldrake[["used_data"]], "tbl_df")
-    expect_null(empty_goldrake[["reviewers"]][[1]])
+    expect_length(empty_goldrake[["reviewers"]], 0L)
     expect_s3_class(
         empty_goldrake[["original_data"]],
         c("tbl_df", "data.frame")

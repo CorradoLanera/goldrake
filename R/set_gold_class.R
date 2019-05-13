@@ -3,8 +3,12 @@
 #' @param x a \code{\link{goldrake}} object
 #' @param classes (chr, default c("0", "1")) Classes admitted for the
 #'        classification.
+#' @param ... further arguments passed to the methods
+#' @param force (lgl, default = TRUE) if TRUE, overwrite possible
+#'        classes already set.
 #'
-#' @return a \code{\link{goldrake}} object with updated classes
+#' @return invisibly, a \code{\link{goldrake}} object with updated
+#'         classes
 #' @export
 #'
 #' @examples
@@ -18,6 +22,10 @@
 #'     set_gold_classes(c("good", "bad", "so and so")) %>%
 #'     set_gold_classes(c("0", "1"))
 #'
+#' goldrake(mtcars) %>%
+#'     set_gold_classes(c("good", "bad", "so and so")) %>%
+#'     set_gold_classes(c("0", "1"), force = TRUE)
+#'
 #' \dontrun{
 #'     # an error
 #'     set_gold_classes(1)
@@ -27,12 +35,13 @@
 #'         set_gold_classes(1)
 #' }
 #'
-set_gold_classes <- function(x, classes) {
+set_gold_classes <- function(x, classes, ...) {
     UseMethod("set_gold_classes")
 }
 
-#' @rdname set_gold_class
-set_gold_classes.default <- function(x, classes) {
+#' @rdname set_gold_classes
+#' @export
+set_gold_classes.default <- function(x, classes, ...) {
 
     ui_stop(paste(
         "The {ui_field('x')} input in {ui_code('set_gold_classes')}",
@@ -43,8 +52,11 @@ set_gold_classes.default <- function(x, classes) {
 
 }
 
-#' @rdname set_gold_class
-set_gold_classes.goldrake <- function(x, classes = c("0", "1")) {
+#' @rdname set_gold_classes
+#' @export
+set_gold_classes.goldrake <- function(x, classes = c("0", "1"), ...,
+    force = FALSE
+) {
 
     if (!is.character(classes)) {
         ui_stop(paste0(
@@ -57,19 +69,25 @@ set_gold_classes.goldrake <- function(x, classes = c("0", "1")) {
         ))
     }
 
-    actual_classes <- gold_classes(x)
+    actual_classes <- get_gold_classes(x)
     has_classes    <- length(actual_classes) != 0L
 
     if (has_classes) {
         ui_warn(paste(
-            "Gold classes already present.\n",
+            "Gold classes are already present.\n",
             "They are: {ui_value(actual_classes)}."
         ))
-        ui_fail("Classes have not been changed.")
-        return(x)
+
+        if (!force) {
+            ui_fail("Classes have not been changed.")
+            return(invisible(x))
+        }
+
+        ui_done("Classes have been changed.")
     }
 
     attr(x, "gold_classes") <- classes
-    x
-
+    if (!force) ui_done("Classes have been added.")
+    ui_done("New classes: {ui_value(classes)}.")
+    invisible(x)
 }

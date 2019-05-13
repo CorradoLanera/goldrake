@@ -5,6 +5,7 @@
 \alias{ui_line}
 \alias{ui_todo}
 \alias{ui_done}
+\alias{ui_fail}
 \alias{ui_code_block}
 \alias{ui_stop}
 \alias{ui_warn}
@@ -21,6 +22,8 @@ ui_line(x, .envir = parent.frame())
 ui_todo(x, .envir = parent.frame())
 
 ui_done(x, .envir = parent.frame())
+
+ui_fail(x, .envir = parent.frame())
 
 ui_code_block(x, copy = interactive(), .envir = parent.frame())
 

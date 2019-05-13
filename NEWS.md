@@ -1,3 +1,8 @@
+* Added `print()` method for goldrake
+* Added `balanced_group_by()`
+* Added `set_gold_classes()`
+* Added `goldrake()` costructor
+* Added support for tidy evaluation
 * Updated `README`;
 * Added `utils.R`, `directory.R`, and `ui.R` with some feature from 
   the package `usethis`.

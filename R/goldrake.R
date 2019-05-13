@@ -44,3 +44,6 @@ goldrake <- function(original_data) {
         class = "goldrake"
     )
 }
+
+
+# goldrake.goldrake <- function(x) x
