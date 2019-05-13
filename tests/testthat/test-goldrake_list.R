@@ -1,11 +1,19 @@
 context("test-goldrake_list")
 
+empty_rev <- tibble(
+  id = integer(),
+  code = character(),
+  name = character(),
+  surname = character(),
+  inspector = logical()
+)
+
 test_that("goldrake_list return the correct object", {
     expect_equal(
         goldrake_list(tibble()),
         list(
             used_data     = tibble(),
-            reviewers     = list(),
+            reviewers     = empty_rev,
             original_data = tibble()
         )
     )
@@ -14,7 +22,7 @@ test_that("goldrake_list return the correct object", {
     goldrake_list(mtcars),
     list(
         used_data     = tibble(),
-        reviewers     = list(),
+        reviewers     = empty_rev,
         original_data = mtcars
     )
   )

@@ -17,7 +17,13 @@ goldrake_list <- function(.x) {
 
     list(
         used_data     = tibble(),
-        reviewers     = list(),
+        reviewers     = tibble(
+            id = integer(),
+            code = character(),
+            name = character(),
+            surname = character(),
+            inspector = logical()
+        ),
         original_data = .x
     )
 }

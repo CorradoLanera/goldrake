@@ -1,3 +1,4 @@
+* Added `add_reviewer()`
 * Added `print()` method for goldrake
 * Added `balanced_group_by()`
 * Added `set_gold_classes()`

@@ -27,7 +27,7 @@ print.goldrake <- function(x, ...) {
         golds <- crayon::red("none")
     }
 
-    revs <- get_reviewer_names(x)
+    revs <- get_reviewers(x)
     if (!length(revs)) {
         revs <- crayon::red("none")
     }

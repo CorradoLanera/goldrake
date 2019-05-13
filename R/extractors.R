@@ -12,11 +12,11 @@ get_gold_classes.goldrake <- function(x) {
 
 
 
-get_reviewer_names <- function(x) {
-    UseMethod("get_reviewer_names")
+get_reviewers <- function(x) {
+    UseMethod("get_reviewers")
 }
 
-get_reviewer_names.goldrake <- function(x) {
+get_reviewers.goldrake <- function(x) {
     attr(x, "reviewer_names")
 }
 

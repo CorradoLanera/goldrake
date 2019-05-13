@@ -34,11 +34,28 @@ The intended is divided in multiple step.
 ### Setup
 
 ``` r
+library(goldrake)
 mtcars_gr <- goldrake(mtcars) %>% 
-   set_gold_class(c("good", "bad", "so and so")) %>% 
+   set_gold_classes(c("good", "bad", "so and so")) %>% 
    balance_groups_by(vs, am) %>% 
-   max_sample_each_group(5) %>% 
+   # max_sample_each_group(5) %>% # DOES IT WORTH TO BE IMPLEMENTED??
    add_reviewer("Corrado", "Lanera")
+#> <U+2714> Classes have been added.
+#> <U+2714> New classes: 'good', 'bad', 'so and so'.
+#> <U+2714> Balancing variables setted
+#> <U+2714> New balancing variables: 'vs', 'am'
+#> <U+2714> Reviewer 'Corrado, Lanera' added.
+
+mtcars_gr
+#> goldrake classification object
+#> 
+#> <U+25CF> 32 cases and 11 variables (balanced by vs, am)
+#> <U+25CF> Classes: good, bad, so and so.
+#> 
+#> <U+2714> Data classified: 32 (by everyone) -- 32 (by someone)
+#> <U+2716> Data left to classify: 0 (by someone) -- 0 (by everyone)
+#> 
+#> <U+25CF> Reviewers: Corrado, Lanera.
 ```
 
 You can add reviewer in any moment (even if the previous ones have
