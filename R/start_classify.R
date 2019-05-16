@@ -120,21 +120,27 @@ start_classify.goldrake <- function(
         selected_class <- ui_select(" ", get_gold_classes(x))
 
         if (selected_class == "exit") {
-            if (ui_yeah("Do you want to update the local copy of your goldrake with the work progresses already done?")) {
-                saveRDS(x, file = path(gold_dir, gold_name))
-                ui_done("The local copy of {ui_value('gold_name')} has been updated on disk.")
+            if (ui_yeah("Do you want to skip the next record?")) {
+                progress <- progress + 1L
+                next
             } else {
-                ui_fail("Nothing is changed on disk.")
+                if (ui_yeah("Do you want to update the local copy of your goldrake with the work progresses already done?")) {
+                    saveRDS(x, file = path(gold_dir, gold_name))
+                    ui_done("The local copy of {ui_value('gold_name')} has been updated on disk.")
+                } else {
+                    ui_fail("Nothing is changed on disk.")
+                }
+                ui_fail("Good bye.")
+                return(invisible(x))
             }
-            ui_fail("Good bye.")
-            return(invisible(x))
         }
 
         x[["used_data"]][[first_missing, rev_code]] <- get_gold_classes(x)[[match(selected_class, get_gold_classes(x))]]
         ui_done("Class set: {ui_value(selected_class)}.")
+        progress <- progress + 1L
 
         again <- ui_yeah("Do you want to procede with the next one?")
-        if (selected_class == "exit" && again) {
+        if (again) {
             progress <- progress + 1L
         }
     }
