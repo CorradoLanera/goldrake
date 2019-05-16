@@ -27,6 +27,64 @@ You can install the development version from
 devtools::install_github("CorradoLanera/goldrake")
 ```
 
+## Usage
+
+The intended is divided in multiple step.
+
+### Setup
+
+``` r
+library(goldrake)
+mtcars_gr <- goldrake(mtcars) %>% 
+   set_gold_classes(c("good", "bad", "so and so")) %>% 
+   balance_groups_by(vs, am) %>% 
+   # max_sample_each_group(5) %>% # DOES IT WORTH TO BE IMPLEMENTED??
+   add_reviewer("Corrado", "Lanera")
+#> <U+2714> Classes have been added.
+#> <U+2714> New classes: 'good', 'bad', 'so and so'.
+#> <U+2714> Balancing variables setted
+#> <U+2714> New balancing variables: 'vs', 'am'
+#> <U+2714> Reviewer 'Corrado, Lanera' added.
+
+mtcars_gr
+#> goldrake classification object
+#> 
+#> <U+2714> 32 cases and 11 variables (balanced by vs, am)
+#> <U+2714> Classes: good, bad, so and so.
+#> 
+#> <U+2714> Data classified: 0 (by everyone) -- 0 (by someone)
+#> <U+25CF> Data left to classify: 32 (by someone) -- 32 (by everyone)
+#> 
+#> <U+2714> Reviewers: Corrado, Lanera.
+```
+
+You can add reviewer in any moment (even if the previous ones have
+already started to classify objects).
+
+    mtcars_gr %>% 
+       add_reviewer("Daniele", "Bottigliengo")      # it asks for a password
+
+### Classify
+
+    ## if it is not the first time
+    # mtcars_gr <- read_goldrake("mtcars_gr.goldrake")
+    
+    # start the interactive classification session 
+    mtcars_gr %>% 
+        classify_by("Corrado")             # it asks for reviewer's password
+
+At the end of the session, if the stored goldrake was updated by other
+reviewer(s), the information will be merged together.
+
+### Collect results
+
+    # load_goldrake("mtcars_gr.goldrake") # if it is not already loaded
+    
+    classified_mtcars <- mtcars_gr %>% 
+        extract_classified_tbl()
+    
+    is.data.frame(classified_mtcars)
+
 ## CODE OF CONDUCT
 
 Please note that the `goldrake` project is released with a [Contributor
