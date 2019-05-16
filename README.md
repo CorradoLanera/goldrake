@@ -49,13 +49,13 @@ mtcars_gr <- goldrake(mtcars) %>%
 mtcars_gr
 #> goldrake classification object
 #> 
-#> <U+25CF> 32 cases and 11 variables (balanced by vs, am)
-#> <U+25CF> Classes: good, bad, so and so.
+#> <U+2714> 32 cases and 11 variables (balanced by vs, am)
+#> <U+2714> Classes: good, bad, so and so.
 #> 
-#> <U+2714> Data classified: 32 (by everyone) -- 32 (by someone)
-#> <U+2716> Data left to classify: 0 (by someone) -- 0 (by everyone)
+#> <U+2714> Data classified: 0 (by everyone) -- 0 (by someone)
+#> <U+25CF> Data left to classify: 32 (by someone) -- 32 (by everyone)
 #> 
-#> <U+25CF> Reviewers: Corrado, Lanera.
+#> <U+2714> Reviewers: Corrado, Lanera.
 ```
 
 You can add reviewer in any moment (even if the previous ones have
@@ -74,7 +74,7 @@ already started to classify objects).
         classify_by("Corrado")             # it asks for reviewer's password
 
 At the end of the session, if the stored goldrake was updated by other
-reviewer(s), the information will be merged toghether.
+reviewer(s), the information will be merged together.
 
 ### Collect results
 

@@ -125,6 +125,24 @@ ui_nope <- function(x, .envir = parent.frame()) {
   !ui_yeah(x, .envir = .envir)
 }
 
+
+#' @rdname ui
+ui_select <- function(x, options, .envir = parent.frame()) {
+  x <- glue_collapse(x, "\n")
+  x <- glue(x, .envir = .envir)
+
+  if (!interactive()) {
+    ui_stop(c(
+      "User input required, but session is not interactive.",
+      "Query: {x}"
+    ))
+  }
+
+  cat_line(x)
+  c("exit", options)[[utils::menu(c("exit", options))]]
+}
+
+
 # Inline styles -----------------------------------------------------------
 
 #' @rdname ui

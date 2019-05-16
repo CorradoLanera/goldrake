@@ -6,3 +6,4 @@
 ^README\.Rmd$
 ^goldrake\.Rproj$
 ^\.Rproj\.user$
+^\.goldrake$

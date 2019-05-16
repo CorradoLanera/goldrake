@@ -29,7 +29,9 @@ Imports:
     purrr (>= 0.3.2),
     rlang (>= 0.3.1),
     stringr (>= 1.4.0),
-    tibble (>= 2.0.1)
+    tibble (>= 2.0.1),
+    janitor,
+    stats
 Suggests: 
     covr (>= 3.2.1),
     roxygen2 (>= 6.1.1),

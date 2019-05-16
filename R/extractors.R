@@ -76,3 +76,33 @@ get_max_sampled.goldrake <- function(x) {
 
 
 
+
+
+get_to_review <- function(x, rev_code) {
+    UseMethod("get_to_review")
+}
+
+get_to_review.goldrake <- function(x, rev_code) {
+    used_data <- get_used_data(x)
+
+    used_data[setdiff(
+        names(used_data),
+        setdiff(names(get_reviewers(x)), rev_code)
+    )]
+}
+
+
+
+
+
+get_done <- function(x) {
+    UseMethod("get_done")
+}
+
+get_done.goldrake <- function(x) {
+    get_used_data(x) %>%
+        dplyr::select(x[["reviewers"]][["code"]]) %>%
+        janitor::remove_empty("rows")
+}
+
+

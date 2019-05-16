@@ -1,6 +1,7 @@
 capture.output({
     gold <- goldrake(mtcars) %>%
-        set_gold_classes()
+        set_gold_classes() %>%
+        balance_groups_by(cyl)
 })
 
 test_that("add reviewer class", {

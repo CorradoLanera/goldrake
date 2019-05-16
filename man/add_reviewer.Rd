@@ -6,28 +6,28 @@
 \alias{add_reviewer.goldrake}
 \title{Add reviewer}
 \usage{
-add_reviewer(x, name, surname = NULL, inspector = FALSE, seed = 1)
+add_reviewer(gold, name, surname = NULL, inspector = FALSE, seed = 1)
 
-\method{add_reviewer}{default}(x, name, surname = NULL,
+\method{add_reviewer}{default}(gold, name, surname = NULL,
   inspector = FALSE, seed = 1)
 
-\method{add_reviewer}{goldrake}(x, name, surname = NULL,
+\method{add_reviewer}{goldrake}(gold, name, surname = NULL,
   inspector = FALSE, seed = 1)
 }
 \arguments{
-\item{x}{a \code{\link{goldrake}} object}
+\item{gold}{a \code{\link{goldrake}} object}
 
 \item{name}{(chr) Reviewer's name}
 
 \item{surname}{(chr, default = NULL, optional) Reviewer's surname}
 
-\item{inspector}{(lgl, default = FALSE) Is a reviewer a reviever's
+\item{inspector}{(lgl, default = FALSE) Is a reviewer a reviewer's
 reviewers?}
 
 \item{seed}{(num, default = 1) seed for the case sampling}
 }
 \value{
-invisibly, the updated version of x
+invisibly, the updated version of gold
 }
 \description{
 Add reviewer
@@ -35,6 +35,7 @@ Add reviewer
 \examples{
 with_reviewer <- goldrake(mtcars) \%>\%
     set_gold_classes() \%>\%
+    balance_groups_by(cyl, vs) \%>\%
     add_reviewer("Reviewer 1")
 
 with_reviewer

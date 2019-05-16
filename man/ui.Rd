@@ -11,6 +11,7 @@
 \alias{ui_warn}
 \alias{ui_yeah}
 \alias{ui_nope}
+\alias{ui_select}
 \alias{ui_field}
 \alias{ui_value}
 \alias{ui_path}
@@ -34,6 +35,8 @@ ui_warn(x, .envir = parent.frame())
 ui_yeah(x, .envir = parent.frame())
 
 ui_nope(x, .envir = parent.frame())
+
+ui_select(x, options, .envir = parent.frame())
 
 ui_field(x)
 

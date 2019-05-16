@@ -19,7 +19,7 @@ NULL
 #' x <- goldrake(mtcars)
 print.goldrake <- function(x, ...) {
 
-    done <- get_used_data(x)
+    done <- get_done(x)
     original <- get_original_data(x)
 
     golds <- get_gold_classes(x)
@@ -40,13 +40,13 @@ print.goldrake <- function(x, ...) {
 
     ui_line("goldrake classification object")
     ui_line("")
-    ui_todo("{ui_field(nrow(original))} cases and {ui_field(ncol(original))} variables (balanced by {ui_field(balances)})")
-    ui_todo("Classes: {ui_field(golds)}.")
+    ui_done("{ui_field(nrow(original))} cases and {ui_field(ncol(original))} variables (balanced by {ui_field(balances)})")
+    ui_done("Classes: {ui_field(golds)}.")
     ui_line("")
-    ui_done("Data classified: {ui_field(nrow(done))} (by everyone) -- {ui_field(nrow(done))} (by someone)")
-    ui_fail("Data left to classify: {ui_field(nrow(original) - nrow(done))} (by someone) -- {ui_field(nrow(original) - nrow(done))} (by everyone)")
+    ui_done("Data classified: {ui_field(sum(complete.cases(done)))} (by everyone) -- {ui_field(nrow(done))} (by someone)")
+    ui_todo("Data left to classify: {ui_field(nrow(get_used_data(x)) - sum(complete.cases(done)))} (by someone) -- {ui_field(nrow(get_used_data(x)) - nrow(done))} (by everyone)")
     ui_line("")
-    ui_todo("Reviewers: {ui_field(revs)}.")
+    ui_done("Reviewers: {ui_field(revs)}.")
 
 
     invisible(x)

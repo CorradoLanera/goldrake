@@ -76,7 +76,7 @@ mtcars_gr %>%
 ```
 
 At the end of the session, if the stored goldrake was updated by other
-reviewer(s), the information will be merged toghether.
+reviewer(s), the information will be merged together.
 
 ### Collect results
 
