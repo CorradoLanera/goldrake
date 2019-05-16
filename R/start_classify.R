@@ -134,7 +134,7 @@ start_classify.goldrake <- function(
         ui_done("Class set: {ui_value(selected_class)}.")
 
         again <- ui_yeah("Do you want to procede with the next one?")
-        if (!selected_class && again) {
+        if (selected_class == "exit" && again) {
             progress <- progress + 1L
         }
     }
