@@ -51,9 +51,10 @@ start_classify.NULL <- function(x = NULL, gold_dir = NULL, gold_name = NULL) {
     if (!is.null(gold_name) && (gold_name %in% possible_goldrake)) {
         to_load <- gold_name
     } else {
-        to_load <- ui_select("Which file do you want to load?",
-            possible_goldrake
-        )
+        option_to_load <- c(possible_goldrake, "exit")
+        to_load <- option_to_load[ui_select(
+            "Which file do you want to load?", option_to_load
+        )]
 
         if (to_load == "exit") {
             ui_fail("Good bye.")
@@ -73,17 +74,17 @@ start_classify.NULL <- function(x = NULL, gold_dir = NULL, gold_name = NULL) {
 start_classify.goldrake <- function(
     x, gold_dir = NULL, gold_name = NULL
 ) {
-    reviewer <- ui_select("Who are you?", get_reviewers(x))
+    possible_review <- c(get_reviewers(x), "exit") %>%
+        purrr::set_names()
+    reviewer <- possible_review[ui_select("Who are you?", possible_review)]
+
     if (reviewer == "exit") {
         ui_fail("Nothing is changed.")
         ui_fail("Good bye.")
         return(invisible(x))
     }
 
-    reviewer <- get_reviewers(x)[get_reviewers(x) == reviewer]
-
     ui_done("{reviewer} set as the actual reviewer.")
-
     rev_code <- names(reviewer)
 
 
@@ -112,7 +113,8 @@ start_classify.goldrake <- function(
         data_selected[var_to_show] %>% purrr::iwalk(~ui_todo("{.y}: {.x}."))
 
         ui_todo('Seleziona la classe:')
-        selected_class <- ui_select(" ", c(get_gold_classes(x), "save & skip", "save & exit", "exit w/o save"))
+        class_options <- c(get_gold_classes(x), "save & skip", "save & exit", "exit w/o save")
+        selected_class <- class_options[[ui_select(" ", class_options)]]
 
         if (selected_class == "exit w/o save") {
             if (ui_yeah("Are you sure do you want to exit WITHOUT saving? If so, you will lose all your unsaved work.")) {
