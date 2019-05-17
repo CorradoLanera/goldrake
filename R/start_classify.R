@@ -118,7 +118,9 @@ start_classify.goldrake <- function(
         if (selected_class == "exit w/o save") {
             if (ui_yeah("Are you sure do you want to exit WITHOUT saving? If so, you will lose all your unsaved work.")) {
                 ui_fail("Nothing is changed on disk.")
-                break
+                ui_done("Thank you! Bye.")
+                return(invisible(x))
+
             }
             next
         }
@@ -141,7 +143,9 @@ start_classify.goldrake <- function(
             ui_todo("Saving data in {path(gold_dir, gold_name)}...")
             saveRDS(x, file = path(gold_dir, gold_name))
             ui_done("A local copy of {ui_value('gold_name')} has been saved on disk.")
-            break
+            ui_done("Thank you! Bye.")
+            return(invisible(x))
+
         }
 
 
@@ -191,10 +195,10 @@ start_classify.goldrake <- function(
 
 
     ui_todo("Saving data...")
-    path_is_to_set <- is.null(gold_dir) || is.null(gold_name)
     go <- FALSE
     while (!go) {
         go <- TRUE
+        path_is_to_set <- is.null(gold_dir) || is.null(gold_name)
 
         while (path_is_to_set) {
             if (is.null(gold_dir)) {
