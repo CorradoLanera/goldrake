@@ -90,6 +90,7 @@ start_classify.goldrake <- function(
     skip <- 0L
     while (nrow(to_review) != sum(stats::complete.cases(to_review))) {
 
+        to_review <- get_to_review(x, rev_code)
         are_missings <- is.na(to_review[[rev_code]])
 
         if (skip >= sum(are_missings)) {
