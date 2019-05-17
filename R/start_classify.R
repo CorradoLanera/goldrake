@@ -87,7 +87,7 @@ start_classify.goldrake <- function(
     ui_done("{reviewer} set as the actual reviewer.")
     rev_code <- names(reviewer)
 
-
+    to_review <- get_to_review(x, rev_code)
     skip <- 0L
     while (nrow(to_review) != sum(stats::complete.cases(to_review))) {
 
