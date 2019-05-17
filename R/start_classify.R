@@ -74,8 +74,7 @@ start_classify.NULL <- function(x = NULL, gold_dir = NULL, gold_name = NULL) {
 start_classify.goldrake <- function(
     x, gold_dir = NULL, gold_name = NULL
 ) {
-    possible_review <- c(get_reviewers(x), "exit") %>%
-        purrr::set_names()
+    possible_review <- c(get_reviewers(x), "exit")
     reviewer <- possible_review[ui_select("Who are you?", possible_review)]
 
     if (reviewer == "exit") {
@@ -91,7 +90,6 @@ start_classify.goldrake <- function(
     skip <- 0L
     while (nrow(to_review) != sum(stats::complete.cases(to_review))) {
 
-        to_review    <- get_to_review(x, rev_code)
         are_missings <- is.na(to_review[[rev_code]])
 
         if (skip >= sum(are_missings)) {
