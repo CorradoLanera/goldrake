@@ -26,21 +26,21 @@ NULL
 
 #' @rdname ui
 ui_line <- function(x, .envir = parent.frame()) {
-  x <- glue_collapse(x, "\n")
+  x <- glue::glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
   cat_line(x)
 }
 
 #' @rdname ui
 ui_todo <- function(x, .envir = parent.frame()) {
-  x <- glue_collapse(x, "\n")
+  x <- glue::glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
   cat_bullet(x, crayon::red(clisymbols::symbol$bullet))
 }
 
 #' @rdname ui
 ui_done <- function(x, .envir = parent.frame()) {
-  x <- glue_collapse(x, "\n")
+  x <- glue::glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
   cat_bullet(x, crayon::red(crayon::green(clisymbols::symbol$tick)))
 }
@@ -48,7 +48,7 @@ ui_done <- function(x, .envir = parent.frame()) {
 
 #' @rdname ui
 ui_fail <- function(x, .envir = parent.frame()) {
-  x <- glue_collapse(x, "\n")
+  x <- glue::glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
   cat_bullet(x, crayon::red(clisymbols::symbol$cross))
 }
@@ -58,7 +58,7 @@ ui_fail <- function(x, .envir = parent.frame()) {
 #'   is installed, will copy the code block to the clipboard.
 #' @rdname ui
 ui_code_block <- function(x, copy = interactive(), .envir = parent.frame()) {
-  x <- glue_collapse(x, "\n")
+  x <- glue::glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
 
   block <- indent(x, "  ")
@@ -76,7 +76,7 @@ ui_code_block <- function(x, copy = interactive(), .envir = parent.frame()) {
 
 #' @rdname ui
 ui_stop <- function(x, .envir = parent.frame()) {
-  x <- glue_collapse(x, "\n")
+  x <- glue::glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
 
   cnd <- structure(
@@ -89,7 +89,7 @@ ui_stop <- function(x, .envir = parent.frame()) {
 
 #' @rdname ui
 ui_warn <- function(x, .envir = parent.frame()) {
-  x <- glue_collapse(x, "\n")
+  x <- glue::glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
 
   warning(x, call. = FALSE, immediate. = TRUE)
@@ -99,7 +99,7 @@ ui_warn <- function(x, .envir = parent.frame()) {
 
 #' @rdname ui
 ui_yeah <- function(x, .envir = parent.frame()) {
-  x <- glue_collapse(x, "\n")
+  x <- glue::glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
 
   if (!interactive()) {
@@ -128,7 +128,7 @@ ui_nope <- function(x, .envir = parent.frame()) {
 
 #' @rdname ui
 ui_select <- function(x, options, .envir = parent.frame()) {
-  x <- glue_collapse(x, "\n")
+  x <- glue::glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
 
   if (!interactive()) {
@@ -139,7 +139,7 @@ ui_select <- function(x, options, .envir = parent.frame()) {
   }
 
   cat_line(x)
-  c("exit", options)[[utils::menu(c("exit", options))]]
+  utils::menu(options)
 }
 
 
@@ -148,7 +148,7 @@ ui_select <- function(x, options, .envir = parent.frame()) {
 #' @rdname ui
 ui_field <- function(x) {
   x <- crayon::green(x)
-  x <- glue_collapse(x, sep = ", ")
+  x <- glue::glue_collapse(x, sep = ", ")
   x
 }
 
@@ -158,7 +158,7 @@ ui_value <- function(x) {
     x <- encodeString(x, quote = "'")
   }
   x <- crayon::blue(x)
-  x <- glue_collapse(x, sep = ", ")
+  x <- glue::glue_collapse(x, sep = ", ")
   x
 }
 
@@ -181,7 +181,7 @@ ui_path <- function(x, base = NULL) {
 ui_code <- function(x) {
   x <- encodeString(x, quote = "`")
   x <- crayon::make_style("darkgrey")(x)
-  x <- glue_collapse(x, sep = ", ")
+  x <- glue::glue_collapse(x, sep = ", ")
   x
 }
 

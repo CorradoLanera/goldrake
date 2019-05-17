@@ -86,88 +86,146 @@ start_classify.goldrake <- function(
 
     rev_code <- names(reviewer)
 
-    to_review <- get_to_review(x, rev_code)
 
+    skip <- 0L
+    while (nrow(to_review) != sum(stats::complete.cases(to_review))) {
 
-
-    again <- TRUE
-    progress <- 1L
-    while (
-        (nrow(to_review) != sum(stats::complete.cases(to_review))) &&
-        again
-    ) {
+        to_review    <- get_to_review(x, rev_code)
         are_missings <- is.na(to_review[[rev_code]])
-        if (progress > sum(are_missings)) {
-            ui_fail("You reach the end of the database with {ui_value(progress - 1)} record skipped.")
-            if (ui_yeah("Do you want to continue with the classificaton of the skipped records?")) {
-                progress <- 1
+
+        if (skip >= sum(are_missings)) {
+            ui_fail("You reach the end of the database with {ui_value(skip)} records skipped.")
+            if (skip && ui_yeah("Do you want to continue with the classificaton of the skipped records?")) {
+                skip     <- 0L
+                next
             } else {
-                ui_todo("Stop classification with {ui_value(progress - 1)} records left to be classified.")
                 break
             }
         }
 
-        first_missing <- which(are_missings)[[progress]]
+        first_missing <- which(are_missings)[[1L + skip]]
 
         var_to_show <- names(get_original_data(x)) %>%
             setdiff(get_balanced_variables(x))
 
-        print(unclass(
-            get_original_data(x)[first_missing, var_to_show, drop = FALSE]
-        ))
+        data_selected <- get_original_data(x)[to_review[[first_missing, "sampled_obs"]], , drop = FALSE]
+        data_selected[var_to_show] %>% purrr::iwalk(~ui_todo("{.y}: {.x}."))
 
-        ui_todo('Seleziona la classe.')
-        selected_class <- ui_select(" ", get_gold_classes(x))
+        ui_todo('Seleziona la classe:')
+        selected_class <- ui_select(" ", c(get_gold_classes(x), "save & skip", "save & exit", "exit w/o save"))
 
-        if (selected_class == "exit") {
-            if (ui_yeah("Do you want to skip the next record?")) {
-                progress <- progress + 1L
-                next
-            } else {
-                if (ui_yeah("Do you want to update the local copy of your goldrake with the work progresses already done?")) {
-                    saveRDS(x, file = path(gold_dir, gold_name))
-                    ui_done("The local copy of {ui_value('gold_name')} has been updated on disk.")
-                } else {
-                    ui_fail("Nothing is changed on disk.")
-                }
-                ui_fail("Good bye.")
-                return(invisible(x))
+        if (selected_class == "exit w/o save") {
+            if (ui_yeah("Are you sure do you want to exit WITHOUT saving? If so, you will lose all your unsaved work.")) {
+                ui_fail("Nothing is changed on disk.")
+                break
             }
+            next
         }
+
+        if (selected_class == "save & exit") {
+            if (is.null(gold_dir)) {
+                ui_todo("A default directory is not setup, please select one")
+                gold_dir <- choose.dir()
+            }
+            if (is.null(gold_name)) {
+                ui_todo("A default file name is not setup, please select one")
+                gold_name <- readline("Type the name of your file.")
+            }
+
+            if (ui_nope("Your data will be written in {path(gold_dir, gold_name)}. Do you agree")) {
+                ui_fail("Nothing is changed on disk.")
+                next
+            }
+
+            ui_todo("Saving data in {path(gold_dir, gold_name)}...")
+            saveRDS(x, file = path(gold_dir, gold_name))
+            ui_done("A local copy of {ui_value('gold_name')} has been saved on disk.")
+            break
+        }
+
+
+        if (selected_class == "save & skip") {
+            if (is.null(gold_dir)) {
+                ui_todo("A default directory is not setup, please select one")
+                gold_dir <- choose.dir()
+            }
+            if (is.null(gold_name)) {
+                ui_todo("A default file name is not setup, please select one")
+                gold_name <- readline("Type the name of your file.")
+            }
+
+            if (ui_nope("Your data will be written in {path(gold_dir, gold_name)}. Do you agree")) {
+                ui_fail("Nothing is changed on disk.")
+                next
+            }
+
+            ui_todo("Saving data in {path(gold_dir, gold_name)}...")
+            saveRDS(x, file = path(gold_dir, gold_name))
+            ui_done("A local copy of {ui_value('gold_name')} has been saved on disk.")
+
+            skip <- skip + 1L
+            next
+        }
+
 
         x[["used_data"]][[first_missing, rev_code]] <- get_gold_classes(x)[[match(selected_class, get_gold_classes(x))]]
         ui_done("Class set: {ui_value(selected_class)}.")
-        progress <- progress + 1L
-
-        again <- ui_yeah("Do you want to procede with the next one?")
-        if (again) {
-            progress <- progress + 1L
-        }
     }
 
-    if (progress != 1) {
-        ui_fail("Exiting with {ui_value(progress - 1L)} record skipped by {ui_value(reviewer)}")
+
+    if (skip) {
+        ui_fail("Exiting with {ui_value(skip)} record skipped by {ui_value(reviewer)}")
         ui_todo("Don't worry, you can complete your work with a future call to {ui_code('start_classify()')}!")
     }
 
-    if (again) {
+
+    left_missing <- length(are_missings)
+    if (left_missing) {
+        ui_fail("There are {left_missing} records left to classify.")
+        ui_todo("Don't worry, you can complete your work with a future call to {ui_code('start_classify()')}!")
+    } else {
         ui_done("Classification completed for {ui_value(reviewer)}")
         ui_done("Great Job!")
-    } else {
-        ui_fail("Don't worry, you can complete your work with a future call to {ui_code('start_classify()')}!")
     }
 
-    if (ui_yeah("Do you want to update the local copy of your goldrake with the work progresses already done?")) {
-        saveRDS(x, file = path(gold_dir, gold_name))
-        ui_done("The local copy of {ui_value('gold_name')} has been updated on disk.")
-    } else {
-        if (ui_nope("Are you sure you do NOT want to update the local copy of your goldrake with the work progresses already done? (if YES, all the work of the current session will be definitely lost!)")) {
-            saveRDS(x, file = path(gold_dir, gold_name))
-            ui_done("The local copy of {ui_value('gold_name')} has been updated on disk.")
+
+    ui_todo("Saving data...")
+    path_is_to_set <- is.null(gold_dir) || is.null(gold_name)
+    go <- FALSE
+    while (!go) {
+        go <- TRUE
+
+        while (path_is_to_set) {
+            if (is.null(gold_dir)) {
+                ui_todo("Please, select a directory")
+                gold_dir <- choose.dir()
+            }
+            if (is.null(gold_name)) {
+                ui_todo("Please, select a file name")
+                gold_name <- readline("Type the name of your goldrake file.")
+            }
+
+            if (ui_nope("Your data will be written in {path(gold_dir, gold_name)}. Do you agree")) {
+                gold_dir  <- NULL
+                gold_name <- NULL
+            }
+
+            go <- FALSE
         }
-        ui_fail("Nothing is changed on disk.")
+
+        if (go && ui_nope("Your data will be written in {path(gold_dir, gold_name)}. Do you agree")) {
+
+            gold_dir  <- NULL
+            gold_name <- NULL
+
+            go <- FALSE
+        }
     }
 
-    ui_done("Thank you.")
+    ui_todo("Saving data in {path(gold_dir, gold_name)}...")
+    saveRDS(x, file = path(gold_dir, gold_name))
+    ui_done("A local copy of {ui_value('gold_name')} has been saved on disk.")
+
+    ui_done("Thank you! Bye.")
     invisible(x)
 }
